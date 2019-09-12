@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Павел Комаров](https://up.htmlacademy.ru/javascript/18/user/1069099).
-* Наставник: `Неизвестно`.
+* Наставник: [Alexey Komarov](https://htmlacademy.ru/profile/id178804).
 
 ---
 
