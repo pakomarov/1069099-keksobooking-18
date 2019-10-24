@@ -20,8 +20,11 @@ var MOCKUP_DESCRIPTIONS = ['Бла бла', 'Кря кря', 'Кудах-тах-
 var MOCKUP_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var MOCKUP_LOCATION_Y_MIN = 130;
 var MOCKUP_LOCATION_Y_MAX = 630;
-var PIN_WIDTH = 50;
-var PIN_HEIGHT = 70;
+var PIN_OFFSET_X = 25;
+var PIN_OFFSET_Y = 70;
+var PIN_MAIN_OFFSET_X = 32;
+var PIN_MAIN_OFFSET_Y_ACTIVE = 82;
+var PIN_MAIN_OFFSET_Y_INACTIVE = 30;
 
 
 var mapNode = document.querySelector('.map');
@@ -37,6 +40,8 @@ var adFormInputNodes = adFormNode.querySelectorAll('input');
 var adFormSelectNodes = adFormNode.querySelectorAll('select');
 var adFormTextareaNodes = adFormNode.querySelectorAll('textarea');
 var adFormButtonNodes = adFormNode.querySelectorAll('button');
+var addressInputNode = adFormNode.querySelector('#address');
+
 
 var createRange = function (min, max) {
   var range = [];
@@ -215,8 +220,8 @@ var createPinNode = function (ad) {
   var pinNode = pinTemplateNode.cloneNode('true');
   var imageNode = pinNode.children[0];
 
-  pinNode.style.left = (ad.location.x - PIN_WIDTH / 2) + 'px';
-  pinNode.style.top = (ad.location.y - PIN_HEIGHT) + 'px';
+  pinNode.style.left = (ad.location.x - PIN_OFFSET_X) + 'px';
+  pinNode.style.top = (ad.location.y - PIN_OFFSET_Y) + 'px';
 
   imageNode.src = ad.author.avatar;
   imageNode.alt = ad.offer.title;
@@ -269,6 +274,7 @@ var deactivatePage = function () {
   disableNodes(adFormSelectNodes);
   disableNodes(adFormTextareaNodes);
   disableNodes(adFormButtonNodes);
+  setAddressInput();
 };
 
 var activatePage = function () {
@@ -280,6 +286,32 @@ var activatePage = function () {
   enableNodes(adFormSelectNodes);
   enableNodes(adFormTextareaNodes);
   enableNodes(adFormButtonNodes);
+  setAddressInput();
+};
+
+var getNodePositioning = function (node) {
+  return {
+    top: node.offsetTop,
+    left: node.offsetLeft
+  };
+};
+
+var mapIsActive = function () {
+  return !mapNode.classList.contains('map--faded');
+};
+
+var createAddressFromPositioning = function (positioning) {
+  var offsetY = mapIsActive() ? PIN_MAIN_OFFSET_Y_ACTIVE : PIN_MAIN_OFFSET_Y_INACTIVE;
+  var offsetX = PIN_MAIN_OFFSET_X;
+  var y = positioning.top + offsetY;
+  var x = positioning.left + offsetX;
+  return Math.floor(x) + ' ' + Math.floor(y);
+};
+
+var setAddressInput = function () {
+  var mapPinMainPositioning = getNodePositioning(mapPinMainNode);
+  var address = createAddressFromPositioning(mapPinMainPositioning);
+  addressInputNode.value = address;
 };
 
 var mapPinMainMousedownHandler = function () {
