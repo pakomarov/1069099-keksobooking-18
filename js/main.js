@@ -1,6 +1,7 @@
 'use strict';
 
 
+var KEYCODE_ENTER = 13;
 var MOCKUP_ADS_COUNT = 8;
 var MOCKUP_AVATAR_INDEX_MIN = 1;
 var MOCKUP_AVATAR_INDEX_MAX = 8;
@@ -24,10 +25,18 @@ var PIN_HEIGHT = 70;
 
 
 var mapNode = document.querySelector('.map');
+var mapFiltersNode = mapNode.querySelector('.map__filters');
+var mapFiltersInputNodes = mapFiltersNode.querySelectorAll('input');
+var mapFiltersSelectNodes = mapFiltersNode.querySelectorAll('select');
 var pinTemplateNode = document.querySelector('#pin').content.querySelector('.map__pin');
-var mapPinsNode = document.querySelector('.map__pins');
+var mapPinsNode = mapNode.querySelector('.map__pins');
 var mapPinsNodeWidth = mapPinsNode.offsetWidth;
-
+var mapPinMainNode = mapPinsNode.querySelector('.map__pin--main');
+var adFormNode = document.querySelector('.ad-form');
+var adFormInputNodes = adFormNode.querySelectorAll('input');
+var adFormSelectNodes = adFormNode.querySelectorAll('select');
+var adFormTextareaNodes = adFormNode.querySelectorAll('textarea');
+var adFormButtonNodes = adFormNode.querySelectorAll('button');
 
 var createRange = function (min, max) {
   var range = [];
@@ -229,8 +238,65 @@ var renderNodes = function (targetNode, nodes) {
   targetNode.appendChild(fragment);
 };
 
+var mapNodeList = function (nodeList, mappingFunction) {
+  for (var i = 0; i < nodeList.length; i++) {
+    mappingFunction(nodeList[i]);
+  }
+};
 
-mapNode.classList.remove('map--faded');
+var disableNode = function (node) {
+  node.setAttribute('disabled', '');
+};
+
+var enableNode = function (node) {
+  node.removeAttribute('disabled');
+};
+
+var disableNodes = function (nodes) {
+  mapNodeList(nodes, disableNode);
+};
+
+var enableNodes = function (nodes) {
+  mapNodeList(nodes, enableNode);
+};
+
+var deactivatePage = function () {
+  mapNode.classList.add('map--faded');
+  adFormNode.classList.add('ad-form--disabled');
+  disableNodes(mapFiltersInputNodes);
+  disableNodes(mapFiltersSelectNodes);
+  disableNodes(adFormInputNodes);
+  disableNodes(adFormSelectNodes);
+  disableNodes(adFormTextareaNodes);
+  disableNodes(adFormButtonNodes);
+};
+
+var activatePage = function () {
+  mapNode.classList.remove('map--faded');
+  adFormNode.classList.remove('ad-form--disabled');
+  enableNodes(mapFiltersInputNodes);
+  enableNodes(mapFiltersSelectNodes);
+  enableNodes(adFormInputNodes);
+  enableNodes(adFormSelectNodes);
+  enableNodes(adFormTextareaNodes);
+  enableNodes(adFormButtonNodes);
+};
+
+var mapPinMainMousedownHandler = function () {
+  activatePage();
+};
+
+var mapPinMainKeydownEnterHandler = function (evt) {
+  if (evt.keyCode === KEYCODE_ENTER) {
+    activatePage();
+  }
+};
+
+
+deactivatePage();
+
+mapPinMainNode.addEventListener('mousedown', mapPinMainMousedownHandler);
+mapPinMainNode.addEventListener('keydown', mapPinMainKeydownEnterHandler);
 
 var mockupAds = createMockupAds();
 
