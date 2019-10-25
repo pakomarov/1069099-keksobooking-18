@@ -25,6 +25,24 @@ var PIN_OFFSET_Y = 70;
 var PIN_MAIN_OFFSET_X = 32;
 var PIN_MAIN_OFFSET_Y_ACTIVE = 82;
 var PIN_MAIN_OFFSET_Y_INACTIVE = 30;
+var VALIDATION_TABLE_ROOMS_CAPACITY = {
+  '1': {
+    validCapacityValues: ['1'],
+    errorMessage: 'Выбранное количество комнат расчитано на одного гостя'
+  },
+  '2': {
+    validCapacityValues: ['2', '1'],
+    errorMessage: 'Выбранное количество комнат расчитано на одного или двух гостей'
+  },
+  '3': {
+    validCapacityValues: ['3', '2', '1'],
+    errorMessage: 'Выбранное количество комнат расчитано на одного, двух или трёх гостей'
+  },
+  '100': {
+    validCapacityValues: ['0'],
+    errorMessage: 'Выбранное количество комнат не расчитано для принятия гостей'
+  },
+};
 
 
 var mapNode = document.querySelector('.map');
@@ -41,6 +59,8 @@ var adFormSelectNodes = adFormNode.querySelectorAll('select');
 var adFormTextareaNodes = adFormNode.querySelectorAll('textarea');
 var adFormButtonNodes = adFormNode.querySelectorAll('button');
 var addressInputNode = adFormNode.querySelector('#address');
+var roomNumberSelectNode = adFormNode.querySelector('#room_number');
+var capacitySelectNode = adFormNode.querySelector('#capacity');
 
 
 var createRange = function (min, max) {
@@ -324,11 +344,41 @@ var mapPinMainKeydownEnterHandler = function (evt) {
   }
 };
 
+var setCapacityValidity = function () {
+  var selectedRoomCount = roomNumberSelectNode.value;
+  var selectedCapacity = capacitySelectNode.value;
+  var validationRulesForSelectedRoomCount = VALIDATION_TABLE_ROOMS_CAPACITY[selectedRoomCount];
+  var validCapacityValues = validationRulesForSelectedRoomCount.validCapacityValues;
+  var errorMessage = validationRulesForSelectedRoomCount.errorMessage;
 
-deactivatePage();
+  if (validCapacityValues.includes(selectedCapacity)) {
+    capacitySelectNode.setCustomValidity('');
+  } else {
+    capacitySelectNode.setCustomValidity(errorMessage);
+  }
+};
 
-mapPinMainNode.addEventListener('mousedown', mapPinMainMousedownHandler);
-mapPinMainNode.addEventListener('keydown', mapPinMainKeydownEnterHandler);
+var roomNumberSelectChangeHandler = function () {
+  setCapacityValidity();
+  capacitySelectNode.reportValidity();
+};
+
+var capacitySelectChangeHandler = function () {
+  setCapacityValidity();
+  capacitySelectNode.reportValidity();
+};
+
+var initializePage = function () {
+  deactivatePage();
+
+  mapPinMainNode.addEventListener('mousedown', mapPinMainMousedownHandler);
+  mapPinMainNode.addEventListener('keydown', mapPinMainKeydownEnterHandler);
+  roomNumberSelectNode.addEventListener('change', roomNumberSelectChangeHandler);
+  capacitySelectNode.addEventListener('change', capacitySelectChangeHandler);
+};
+
+
+initializePage();
 
 var mockupAds = createMockupAds();
 
