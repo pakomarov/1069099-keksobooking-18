@@ -263,9 +263,9 @@ var renderNodes = function (targetNode, nodes) {
   targetNode.appendChild(fragment);
 };
 
-var mapNodeList = function (nodeList, mappingFunction) {
-  for (var i = 0; i < nodeList.length; i++) {
-    mappingFunction(nodeList[i]);
+var mapIterable = function (iterable, cb) {
+  for (var i = 0; i < iterable.length; i++) {
+    cb(iterable[i]);
   }
 };
 
@@ -278,11 +278,11 @@ var enableNode = function (node) {
 };
 
 var disableNodes = function (nodes) {
-  mapNodeList(nodes, disableNode);
+  mapIterable(nodes, disableNode);
 };
 
 var enableNodes = function (nodes) {
-  mapNodeList(nodes, enableNode);
+  mapIterable(nodes, enableNode);
 };
 
 var deactivatePage = function () {
@@ -309,19 +309,19 @@ var activatePage = function () {
   setAddressInput();
 };
 
-var getNodePositioning = function (node) {
+var getNodePosition = function (node) {
   return {
     top: node.offsetTop,
     left: node.offsetLeft
   };
 };
 
-var mapIsActive = function () {
+var isMapActive = function () {
   return !mapNode.classList.contains('map--faded');
 };
 
-var createAddressFromPositioning = function (positioning) {
-  var offsetY = mapIsActive() ? PIN_MAIN_OFFSET_Y_ACTIVE : PIN_MAIN_OFFSET_Y_INACTIVE;
+var getAddressByPosition = function (positioning) {
+  var offsetY = isMapActive() ? PIN_MAIN_OFFSET_Y_ACTIVE : PIN_MAIN_OFFSET_Y_INACTIVE;
   var offsetX = PIN_MAIN_OFFSET_X;
   var y = positioning.top + offsetY;
   var x = positioning.left + offsetX;
@@ -329,8 +329,8 @@ var createAddressFromPositioning = function (positioning) {
 };
 
 var setAddressInput = function () {
-  var mapPinMainPositioning = getNodePositioning(mapPinMainNode);
-  var address = createAddressFromPositioning(mapPinMainPositioning);
+  var mapPinMainPositioning = getNodePosition(mapPinMainNode);
+  var address = getAddressByPosition(mapPinMainPositioning);
   addressInputNode.value = address;
 };
 
