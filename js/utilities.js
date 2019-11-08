@@ -41,26 +41,31 @@
     return shuffledArray;
   };
 
-  var getRandomlyTrimmedArray = function (array) {
-    var randomlyTrimmedArray = array.slice();
-    var randomTrimCount = getRandomNumberInRange(0, randomlyTrimmedArray.length);
-
-    for (var i = 0; i < randomTrimCount; i++) {
-      randomlyTrimmedArray.pop();
-    }
-
-    return randomlyTrimmedArray;
-  };
-
   var createShuffledRange = function (min, max) {
     var range = createRange(min, max);
     var shuffledRange = getShuffledArray(range);
     return shuffledRange;
   };
 
-  var getShuffledRandomSubsetOfArray = function (array) {
+  var getTrimmedArray = function (array, leftoverLength) {
+    var randomlyTrimmedArray = array.slice();
+
+    for (var i = 0; i < array.length - leftoverLength; i++) {
+      randomlyTrimmedArray.pop();
+    }
+
+    return randomlyTrimmedArray;
+  };
+
+  var getShuffledSubsetOfArray = function (array, length) {
     var shuffledArray = getShuffledArray(array);
-    var shuffledRandomSubsetOfArray = getRandomlyTrimmedArray(shuffledArray);
+    var shuffledSubsetOfArray = getTrimmedArray(shuffledArray, length);
+    return shuffledSubsetOfArray;
+  };
+
+  var getShuffledRandomSubsetOfArray = function (array) {
+    var randomLength = getRandomNumberInRange(0, array.length);
+    var shuffledRandomSubsetOfArray = getShuffledSubsetOfArray(array, randomLength);
     return shuffledRandomSubsetOfArray;
   };
 
