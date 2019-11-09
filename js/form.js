@@ -2,6 +2,7 @@
 
 
 (function () {
+  var DEACTIVATION_CLASS = 'ad-form--disabled';
   var VALIDATION_TABLE_ROOMS_CAPACITY = {
     '1': {
       validCapacityValues: ['1'],
@@ -41,7 +42,7 @@
 
   var deactivate = function () {
     disableAllFields();
-    adFormNode.classList.add('ad-form--disabled');
+    adFormNode.classList.add(DEACTIVATION_CLASS);
   };
 
 
@@ -54,7 +55,7 @@
 
   var activate = function () {
     enableAllFields();
-    adFormNode.classList.remove('ad-form--disabled');
+    adFormNode.classList.remove(DEACTIVATION_CLASS);
   };
 
 

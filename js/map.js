@@ -2,6 +2,7 @@
 
 
 (function () {
+  var DEACTIVATION_CLASS = 'map--faded';
   var ERROR_MESSAGE = 'К сожалению, у нас возникли неполадки. Попробуйте повторить запрос позднее.';
 
 
@@ -34,7 +35,7 @@
   var deactivate = function () {
     window.filter.deactivate();
     cleanMap();
-    mapNode.classList.add('map--faded');
+    mapNode.classList.add(DEACTIVATION_CLASS);
   };
 
   var showPins = function () {
@@ -58,7 +59,7 @@
   };
 
   var activate = function () {
-    mapNode.classList.remove('map--faded');
+    mapNode.classList.remove(DEACTIVATION_CLASS);
     window.pointer.makeSmall();
     window.filter.activate();
     window.backend.loadAds(onLoad, onError);

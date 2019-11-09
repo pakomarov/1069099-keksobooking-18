@@ -2,8 +2,8 @@
 
 
 (function () {
+  var KEYCODE_ESC = 27;
   var KEYCODE_ENTER = 13;
-
 
   var createRange = function (min, max) {
     var range = [];
@@ -94,9 +94,9 @@
   var renderNodes = function (targetNode, nodes) {
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < nodes.length; i++) {
-      fragment.appendChild(nodes[i]);
-    }
+    mapIterable(nodes, function (node) {
+      fragment.appendChild(node);
+    });
 
     targetNode.appendChild(fragment);
   };
@@ -111,6 +111,7 @@
 
   window.utilities = {
     KEYCODE_ENTER: KEYCODE_ENTER,
+    KEYCODE_ESC: KEYCODE_ESC,
     getRandomNumberInRange: getRandomNumberInRange,
     getRandomArrayEntry: getRandomArrayEntry,
     getShuffledArray: getShuffledArray,

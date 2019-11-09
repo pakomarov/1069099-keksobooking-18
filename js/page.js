@@ -15,6 +15,7 @@
   var setup = function () {
     window.map.setup();
     window.form.setup();
+    window.error.setup();
     deactivate();
   };
 
