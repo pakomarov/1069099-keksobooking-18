@@ -2,6 +2,7 @@
 
 
 (function () {
+  var DEACTIVATION_CLASS = 'ad-form--disabled';
   var VALIDATION_TABLE_ROOMS_CAPACITY = {
     '1': {
       validCapacityValues: ['1'],
@@ -22,8 +23,46 @@
   };
 
 
-  var roomNumberSelectNode = document.querySelector('#room_number');
-  var capacitySelectNode = document.querySelector('#capacity');
+  var adFormNode = document.querySelector('.ad-form');
+  var roomNumberSelectNode = adFormNode.querySelector('#room_number');
+  var capacitySelectNode = adFormNode.querySelector('#capacity');
+  var adFormInputNodes = adFormNode.querySelectorAll('input');
+  var adFormSelectNodes = adFormNode.querySelectorAll('select');
+  var adFormTextareaNodes = adFormNode.querySelectorAll('textarea');
+  var adFormButtonNodes = adFormNode.querySelectorAll('button');
+  var addressInputNode = adFormNode.querySelector('#address');
+
+
+  var disableAllFields = function () {
+    window.utilities.disableNodes(adFormInputNodes);
+    window.utilities.disableNodes(adFormSelectNodes);
+    window.utilities.disableNodes(adFormTextareaNodes);
+    window.utilities.disableNodes(adFormButtonNodes);
+  };
+
+  var deactivate = function () {
+    disableAllFields();
+    adFormNode.classList.add(DEACTIVATION_CLASS);
+  };
+
+
+  var enableAllFields = function () {
+    window.utilities.enableNodes(adFormInputNodes);
+    window.utilities.enableNodes(adFormSelectNodes);
+    window.utilities.enableNodes(adFormTextareaNodes);
+    window.utilities.enableNodes(adFormButtonNodes);
+  };
+
+  var activate = function () {
+    enableAllFields();
+    adFormNode.classList.remove(DEACTIVATION_CLASS);
+  };
+
+
+  var refreshAddress = function () {
+    var currentAddress = window.map.getAddress();
+    addressInputNode.value = currentAddress;
+  };
 
 
   var setCapacityValidity = function () {
@@ -50,6 +89,7 @@
     capacitySelectNode.reportValidity();
   };
 
+
   var setup = function () {
     roomNumberSelectNode.addEventListener('change', roomNumberSelectChangeHandler);
     capacitySelectNode.addEventListener('change', capacitySelectChangeHandler);
@@ -57,6 +97,9 @@
 
 
   window.form = {
-    setup: setup
+    setup: setup,
+    deactivate: deactivate,
+    activate: activate,
+    refreshAddress: refreshAddress
   };
 })();
