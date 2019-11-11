@@ -24,10 +24,15 @@
     enableAllFields();
   };
 
+  var onAdsLoad = function () {
+    activate();
+  };
+
 
   var setup = function () {
-
+    window.ads.addLoadListener(onAdsLoad);
   };
+
 
   window.filter = {
     setup: setup,

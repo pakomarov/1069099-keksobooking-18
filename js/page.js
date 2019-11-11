@@ -2,29 +2,28 @@
 
 
 (function () {
-  var activate = function () {
-    window.map.activate();
-    window.form.activate();
-  };
-
   var deactivate = function () {
     window.map.deactivate();
     window.form.deactivate();
   };
 
-  var setup = function () {
-    window.map.setup();
-    window.form.setup();
-    window.error.setup();
-    deactivate();
+  var activate = function () {
+    window.map.activate();
+    window.form.activate();
   };
 
+  var onPointerMousedown = function () {
+    activate();
+  };
+
+
+  var setup = function () {
+    window.error.setup();
+    window.form.setup();
+    window.filter.setup();
+    deactivate();
+    window.pointer.addMousedownListener(onPointerMousedown);
+  };
 
   setup();
-
-
-  window.page = {
-    activate: activate,
-    deactivate: deactivate
-  };
 })();

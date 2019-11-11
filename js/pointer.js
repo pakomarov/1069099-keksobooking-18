@@ -16,47 +16,66 @@
 
 
   var appearance = APPEARANCE_BIG;
+  var onMousedown = function () {};
+  var onAppearanceChange = function () {};
 
 
   var makeBig = function () {
     appearance = APPEARANCE_BIG;
-    window.form.refreshAddress();
+    onAppearanceChange();
   };
 
   var makeSmall = function () {
     appearance = APPEARANCE_SMALL;
-    window.form.refreshAddress();
+    onAppearanceChange();
   };
 
-  var getAddress = function () {
+  var getLocation = function () {
     var pointerPositioning = window.utilities.getNodePosition(pointerNode);
-    var x = Math.floor(pointerPositioning.left + appearance.addressOffsetX);
-    var y = Math.floor(pointerPositioning.top + appearance.addressOffsetY);
-    return x + ' ' + y;
+    return {
+      x: Math.floor(pointerPositioning.left + appearance.addressOffsetX),
+      y: Math.floor(pointerPositioning.top + appearance.addressOffsetY)
+    };
   };
 
 
   var pointerMousedownHandler = function () {
-    window.page.activate();
+    onMousedown();
   };
 
   var pointerKeydownEnterHandler = function (evt) {
     if (evt.keyCode === window.utilities.KEYCODE_ENTER) {
-      window.page.activate();
+      onMousedown();
     }
   };
 
-
-  var setup = function () {
+  var deactivate = function () {
+    makeBig();
     pointerNode.addEventListener('mousedown', pointerMousedownHandler);
     pointerNode.addEventListener('keydown', pointerKeydownEnterHandler);
   };
 
+  var activate = function () {
+    makeSmall();
+    pointerNode.removeEventListener('mousedown', pointerMousedownHandler);
+    pointerNode.removeEventListener('keydown', pointerKeydownEnterHandler);
+  };
+
+
+  var addMousedownListener = function (callback) {
+    onMousedown = callback;
+  };
+
+  var addAppearanceChangeListener = function (callback) {
+    onAppearanceChange = callback;
+  };
+
 
   window.pointer = {
-    setup: setup,
-    makeBig: makeBig,
-    makeSmall: makeSmall,
-    getAddress: getAddress
+    deactivate: deactivate,
+    activate: activate,
+    addMousedownListener: addMousedownListener,
+    addAppearanceChangeListener: addAppearanceChangeListener,
+    getLocation: getLocation
   };
 })();
