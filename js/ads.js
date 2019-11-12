@@ -2,28 +2,39 @@
 
 (function () {
   var ERROR_MESSAGE = 'К сожалению, у нас возникли неполадки. Попробуйте повторить запрос позднее.';
+  var SHOWN_ADS_MAX = 5;
 
 
   var mapPinsNode = document.querySelector('.map__pins');
 
 
   var storedAds = [];
-  var showedPinNodes = [];
-  var onLoad = function () {};
+  var shownPinNodes = [];
+  var customLoadHandler = function () {};
 
+
+  var getAdHousingType = function (ad) {
+    return ad.offer.type;
+  };
 
   var removePins = function () {
-    showedPinNodes.map(function (pinNode) {
+    shownPinNodes.map(function (pinNode) {
       pinNode.remove();
     });
-    showedPinNodes = [];
+    shownPinNodes = [];
   };
 
   var showPins = function () {
-    // здесь будет фильтрация: filteredAds = window.filter.filterAds
-    var pinNodes = storedAds.map(window.pin.createNode); // здесь будут использоваться отфильтрованные объявления
+    var filteredAds = window.filter.filterAds(storedAds);
+    var adsToShow = filteredAds.slice(0, SHOWN_ADS_MAX);
+    var pinNodes = adsToShow.map(window.pin.createNode);
     window.utilities.renderNodes(mapPinsNode, pinNodes);
-    showedPinNodes = showedPinNodes.concat(pinNodes);
+    shownPinNodes = shownPinNodes.concat(pinNodes);
+  };
+
+  var refreshPins = function () {
+    removePins();
+    showPins();
   };
 
   var deactivate = function () {
@@ -37,8 +48,8 @@
     }
 
     storedAds = ads;
+    customLoadHandler();
     showPins();
-    onLoad();
   };
 
   var onError = function (error) {
@@ -50,14 +61,16 @@
   };
 
 
-  var addLoadListener = function (callback) {
-    onLoad = callback;
+  var setCustomLoadHandler = function (callback) {
+    customLoadHandler = callback;
   };
 
 
   window.ads = {
     deactivate: deactivate,
     activate: activate,
-    addLoadListener: addLoadListener
+    getAdHousingType: getAdHousingType,
+    setCustomLoadHandler: setCustomLoadHandler,
+    refreshPins: refreshPins
   };
 })();

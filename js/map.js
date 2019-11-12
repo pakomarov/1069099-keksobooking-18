@@ -23,7 +23,14 @@
   };
 
 
+  var setup = function () {
+    window.filter.setup();
+    window.pointer.setup();
+  };
+
+
   window.map = {
+    setup: setup,
     deactivate: deactivate,
     activate: activate
   };

@@ -101,7 +101,7 @@
   var setup = function () {
     roomNumberSelectNode.addEventListener('change', roomNumberSelectChangeHandler);
     capacitySelectNode.addEventListener('change', capacitySelectChangeHandler);
-    window.pointer.addAppearanceChangeListener(onPointerAppearanceChange);
+    window.pointer.setCustomAppearanceChangeHandler(onPointerAppearanceChange);
   };
 
 

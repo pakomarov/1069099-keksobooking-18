@@ -5,11 +5,13 @@
   var deactivate = function () {
     window.map.deactivate();
     window.form.deactivate();
+    window.pointer.setCustomMousedownHandler(onPointerMousedown);
   };
 
   var activate = function () {
     window.map.activate();
     window.form.activate();
+    window.pointer.setCustomMousedownHandler(function () {});
   };
 
   var onPointerMousedown = function () {
@@ -19,11 +21,14 @@
 
   var setup = function () {
     window.error.setup();
+    window.map.setup();
     window.form.setup();
-    window.filter.setup();
     deactivate();
-    window.pointer.addMousedownListener(onPointerMousedown);
   };
 
   setup();
+
+  window.page = {
+    deactivate: deactivate
+  };
 })();
