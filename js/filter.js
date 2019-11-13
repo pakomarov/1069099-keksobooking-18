@@ -58,7 +58,7 @@
 
   var hasValidHousingType = function (ad) {
     var adType = window.ads.getAdHousingType(ad);
-    return filterSettings.housingType === HOUSING_TYPE_ANY ? true : adType === filterSettings.housingType;
+    return filterSettings.housingType === HOUSING_TYPE_ANY || adType === filterSettings.housingType;
   };
 
   var filterAds = function (ads) {
@@ -92,7 +92,6 @@
   window.filter = {
     setup: setup,
     deactivate: deactivate,
-    activate: activate,
     filterAds: filterAds
   };
 })();

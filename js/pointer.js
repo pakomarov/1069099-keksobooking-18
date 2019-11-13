@@ -16,7 +16,7 @@
 
 
   var appearance = APPEARANCE_BIG;
-  var customMousedownHandler = function () {};
+  var customMouseDownHandler = function () {};
   var customAppearanceChangeHandler = function () {};
 
 
@@ -40,12 +40,12 @@
 
 
   var pointerMousedownHandler = function () {
-    customMousedownHandler();
+    customMouseDownHandler();
   };
 
   var pointerKeydownEnterHandler = function (evt) {
     if (evt.keyCode === window.utilities.KEYCODE_ENTER) {
-      customMousedownHandler();
+      customMouseDownHandler();
     }
   };
 
@@ -58,8 +58,8 @@
   };
 
 
-  var setCustomMousedownHandler = function (callback) {
-    customMousedownHandler = callback;
+  var setCustomMouseDownHandler = function (callback) {
+    customMouseDownHandler = callback;
   };
 
   var setCustomAppearanceChangeHandler = function (callback) {
@@ -77,7 +77,7 @@
     setup: setup,
     deactivate: deactivate,
     activate: activate,
-    setCustomMousedownHandler: setCustomMousedownHandler,
+    setCustomMouseDownHandler: setCustomMouseDownHandler,
     setCustomAppearanceChangeHandler: setCustomAppearanceChangeHandler,
     getLocation: getLocation
   };

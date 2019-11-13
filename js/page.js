@@ -5,13 +5,13 @@
   var deactivate = function () {
     window.map.deactivate();
     window.form.deactivate();
-    window.pointer.setCustomMousedownHandler(onPointerMousedown);
+    window.pointer.setCustomMouseDownHandler(onPointerMousedown);
   };
 
   var activate = function () {
     window.map.activate();
     window.form.activate();
-    window.pointer.setCustomMousedownHandler(function () {});
+    window.pointer.setCustomMouseDownHandler(function () {});
   };
 
   var onPointerMousedown = function () {
