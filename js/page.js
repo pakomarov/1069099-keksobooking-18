@@ -27,8 +27,4 @@
   };
 
   setup();
-
-  window.page = {
-    deactivate: deactivate
-  };
 })();

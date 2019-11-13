@@ -45,6 +45,10 @@
     };
   };
 
+  var createShallowCopy = function (object) {
+    return Object.assign({}, object);
+  };
+
 
   window.utilities = {
     KEYCODE_ENTER: KEYCODE_ENTER,
@@ -52,6 +56,7 @@
     disableNodes: disableNodes,
     enableNodes: enableNodes,
     renderNodes: renderNodes,
-    getNodePosition: getNodePosition
+    getNodePosition: getNodePosition,
+    createShallowCopy: createShallowCopy
   };
 })();

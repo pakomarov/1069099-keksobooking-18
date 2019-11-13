@@ -11,28 +11,22 @@
   var housingTypeNode = filterNode.querySelector('#housing-type');
 
 
-  var Filter = function (housingType) {
-    this.housingType = housingType;
-  };
-
-  var initialFilterSettings;
-  var filterSettings;
+  var initialFilterSettings = {};
+  var filterSettings = {};
 
 
   var storeInitialFilterSettings = function () {
-    initialFilterSettings = new Filter(
-        housingTypeNode.value
-    );
+    initialFilterSettings = {
+      housingType: housingTypeNode.value
+    };
   };
 
   var loadFilterSettings = function () {
-    filterSettings = new Filter(
-        initialFilterSettings.housingType
-    );
+    filterSettings = window.utilities.createShallowCopy(initialFilterSettings);
   };
 
   var removeFilterSettings = function () {
-    filterSettings = new Filter();
+    filterSettings = {};
   };
 
   var restoreFilterNodes = function () {
