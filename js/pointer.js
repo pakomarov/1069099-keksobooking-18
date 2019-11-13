@@ -16,34 +16,54 @@
 
 
   var appearance = APPEARANCE_BIG;
+  var customMouseDownHandler = function () {};
+  var customAppearanceChangeHandler = function () {};
 
 
   var makeBig = function () {
     appearance = APPEARANCE_BIG;
-    window.form.refreshAddress();
+    customAppearanceChangeHandler();
   };
 
   var makeSmall = function () {
     appearance = APPEARANCE_SMALL;
-    window.form.refreshAddress();
+    customAppearanceChangeHandler();
   };
 
-  var getAddress = function () {
+  var getLocation = function () {
     var pointerPositioning = window.utilities.getNodePosition(pointerNode);
-    var x = Math.floor(pointerPositioning.left + appearance.addressOffsetX);
-    var y = Math.floor(pointerPositioning.top + appearance.addressOffsetY);
-    return x + ' ' + y;
+    return {
+      x: Math.floor(pointerPositioning.left + appearance.addressOffsetX),
+      y: Math.floor(pointerPositioning.top + appearance.addressOffsetY)
+    };
   };
 
 
   var pointerMousedownHandler = function () {
-    window.page.activate();
+    customMouseDownHandler();
   };
 
   var pointerKeydownEnterHandler = function (evt) {
     if (evt.keyCode === window.utilities.KEYCODE_ENTER) {
-      window.page.activate();
+      customMouseDownHandler();
     }
+  };
+
+  var deactivate = function () {
+    makeBig();
+  };
+
+  var activate = function () {
+    makeSmall();
+  };
+
+
+  var setCustomMouseDownHandler = function (callback) {
+    customMouseDownHandler = callback;
+  };
+
+  var setCustomAppearanceChangeHandler = function (callback) {
+    customAppearanceChangeHandler = callback;
   };
 
 
@@ -55,8 +75,10 @@
 
   window.pointer = {
     setup: setup,
-    makeBig: makeBig,
-    makeSmall: makeSmall,
-    getAddress: getAddress
+    deactivate: deactivate,
+    activate: activate,
+    setCustomMouseDownHandler: setCustomMouseDownHandler,
+    setCustomAppearanceChangeHandler: setCustomAppearanceChangeHandler,
+    getLocation: getLocation
   };
 })();

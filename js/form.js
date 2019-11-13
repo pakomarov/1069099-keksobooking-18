@@ -59,12 +59,6 @@
   };
 
 
-  var refreshAddress = function () {
-    var currentAddress = window.map.getAddress();
-    addressInputNode.value = currentAddress;
-  };
-
-
   var setCapacityValidity = function () {
     var selectedRoomCount = roomNumberSelectNode.value;
     var selectedCapacity = capacitySelectNode.value;
@@ -90,16 +84,30 @@
   };
 
 
+  var getAddressFromLocation = function (location) {
+    return location.x + ' ' + location.y;
+  };
+
+  var refreshAddress = function () {
+    var currentLocation = window.pointer.getLocation();
+    addressInputNode.value = getAddressFromLocation(currentLocation);
+  };
+
+  var onPointerAppearanceChange = function () {
+    refreshAddress();
+  };
+
+
   var setup = function () {
     roomNumberSelectNode.addEventListener('change', roomNumberSelectChangeHandler);
     capacitySelectNode.addEventListener('change', capacitySelectChangeHandler);
+    window.pointer.setCustomAppearanceChangeHandler(onPointerAppearanceChange);
   };
 
 
   window.form = {
     setup: setup,
     deactivate: deactivate,
-    activate: activate,
-    refreshAddress: refreshAddress
+    activate: activate
   };
 })();

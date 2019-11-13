@@ -17,7 +17,7 @@
     return ERROR_STATUS_TYPES.indexOf(statusType) === -1;
   };
 
-  var request = function (url, method, onLoad, onError, data) {
+  var request = function (url, method, onSuccess, onError, data) {
     var xhr = new XMLHttpRequest();
 
     xhr.responseType = RESPONSE_TYPE;
@@ -29,7 +29,7 @@
       }
 
       if (isSuccessStatus(xhr.status)) {
-        onLoad(xhr.response);
+        onSuccess(xhr.response);
       } else {
         onError(ERROR_MESSAGE);
       }
