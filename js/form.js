@@ -3,7 +3,7 @@
 
 (function () {
   var DEACTIVATION_CLASS = 'ad-form--disabled';
-  var VALIDATION_TABLE_ROOMS_CAPACITY = {
+  var roomCountToValidationRules = {
     '1': {
       validCapacityValues: ['1'],
       errorMessage: 'Выбранное количество комнат расчитано на одного гостя'
@@ -62,9 +62,9 @@
   var setCapacityValidity = function () {
     var selectedRoomCount = roomNumberSelectNode.value;
     var selectedCapacity = capacitySelectNode.value;
-    var validationRulesForSelectedRoomCount = VALIDATION_TABLE_ROOMS_CAPACITY[selectedRoomCount];
-    var validCapacityValues = validationRulesForSelectedRoomCount.validCapacityValues;
-    var errorMessage = validationRulesForSelectedRoomCount.errorMessage;
+    var validationRules = roomCountToValidationRules[selectedRoomCount];
+    var validCapacityValues = validationRules.validCapacityValues;
+    var errorMessage = validationRules.errorMessage;
 
     if (validCapacityValues.includes(selectedCapacity)) {
       capacitySelectNode.setCustomValidity('');

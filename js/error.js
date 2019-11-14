@@ -2,9 +2,6 @@
 
 
 (function () {
-  var HIDING_CLASS = 'hidden';
-
-
   var errorTemplateNode = document.querySelector('#error').content.querySelector('.error');
   var mainNode = document.querySelector('main');
 
@@ -16,7 +13,7 @@
 
   var renderError = function () {
     errorNode = errorTemplateNode.cloneNode('true');
-    errorNode.classList.add(HIDING_CLASS);
+    window.utilities.hideNodeWithClass(errorNode);
     errorMessageNode = errorNode.querySelector('.error__message');
     closeNode = errorNode.querySelector('.error__button');
     closeNode.addEventListener('click', closeClickHandler);
@@ -25,13 +22,13 @@
 
   var showWarning = function (error) {
     errorMessageNode.textContent = error;
-    errorNode.classList.remove(HIDING_CLASS);
+    window.utilities.showNodeWithClass(errorNode);
     document.addEventListener('keydown', documentKeydownEscHandler);
     document.addEventListener('mousedown', documentClickHandler);
   };
 
   var hideWarning = function () {
-    errorNode.classList.add(HIDING_CLASS);
+    window.utilities.hideNodeWithClass(errorNode);
     errorMessageNode.textContent = '';
     document.removeEventListener('keydown', documentKeydownEscHandler);
     document.removeEventListener('mousedown', documentClickHandler);

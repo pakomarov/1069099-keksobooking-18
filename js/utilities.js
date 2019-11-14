@@ -2,36 +2,40 @@
 
 
 (function () {
+  var HIDING_CLASS = 'hidden';
+  var DISABLE_ATTRIBUTE = 'disabled';
   var KEYCODE_ESC = 27;
   var KEYCODE_ENTER = 13;
 
 
-  var mapIterable = function (iterable, cb) {
-    for (var i = 0; i < iterable.length; i++) {
-      cb(iterable[i]);
-    }
+  var hideNodeWithClass = function (node) {
+    node.classList.add(HIDING_CLASS);
+  };
+
+  var showNodeWithClass = function (node) {
+    node.classList.remove(HIDING_CLASS);
   };
 
   var disableNode = function (node) {
-    node.setAttribute('disabled', '');
+    node.setAttribute(DISABLE_ATTRIBUTE, '');
   };
 
   var enableNode = function (node) {
-    node.removeAttribute('disabled');
+    node.removeAttribute(DISABLE_ATTRIBUTE);
   };
 
   var disableNodes = function (nodes) {
-    mapIterable(nodes, disableNode);
+    nodes.forEach(disableNode);
   };
 
   var enableNodes = function (nodes) {
-    mapIterable(nodes, enableNode);
+    nodes.forEach(enableNode);
   };
 
   var renderNodes = function (targetNode, nodes) {
     var fragment = document.createDocumentFragment();
 
-    mapIterable(nodes, function (node) {
+    nodes.forEach(function (node) {
       fragment.appendChild(node);
     });
 
@@ -51,8 +55,11 @@
 
 
   window.utilities = {
+    HIDING_CLASS: HIDING_CLASS,
     KEYCODE_ENTER: KEYCODE_ENTER,
     KEYCODE_ESC: KEYCODE_ESC,
+    hideNodeWithClass: hideNodeWithClass,
+    showNodeWithClass: showNodeWithClass,
     disableNodes: disableNodes,
     enableNodes: enableNodes,
     renderNodes: renderNodes,

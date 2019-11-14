@@ -28,7 +28,9 @@
     var filteredAds = window.filter.filterAds(storedAds);
     var adsToShow = filteredAds.slice(0, SHOWN_ADS_MAX);
     var pinNodes = adsToShow.map(window.pin.createNode);
+    var cardNode = window.card.createNode(adsToShow[1]);
     window.utilities.renderNodes(mapPinsNode, pinNodes);
+    document.querySelector('.map').insertBefore(cardNode, document.querySelector('.map__filters-container'));
     shownPinNodes = shownPinNodes.concat(pinNodes);
   };
 
