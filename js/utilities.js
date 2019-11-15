@@ -20,7 +20,7 @@
     node.classList.add(HIDING_CLASS);
   };
 
-  var showNodeWithClass = function (node) {
+  var showNode = function (node) {
     node.classList.remove(HIDING_CLASS);
   };
 
@@ -59,7 +59,7 @@
     hasStringContent: hasStringContent,
     isEmptyObject: isEmptyObject,
     hideNodeWithClass: hideNodeWithClass,
-    showNodeWithClass: showNodeWithClass,
+    showNode: showNode,
     disableNodes: disableNodes,
     enableNodes: enableNodes,
     getNodePosition: getNodePosition,

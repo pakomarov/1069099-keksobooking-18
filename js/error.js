@@ -22,7 +22,7 @@
 
   var showWarning = function (error) {
     errorMessageNode.textContent = error;
-    window.utilities.showNodeWithClass(errorNode);
+    window.utilities.showNode(errorNode);
     document.addEventListener('keydown', documentKeydownEscHandler);
     document.addEventListener('mousedown', documentClickHandler);
   };
