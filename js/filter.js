@@ -11,8 +11,8 @@
   var housingTypeNode = filterNode.querySelector('#housing-type');
 
 
-  var initialFilterSettings = {};
-  var filterSettings = {};
+  var initialFilterSettings = null;
+  var filterSettings = null;
 
 
   var storeInitialFilterSettings = function () {
@@ -26,7 +26,7 @@
   };
 
   var removeFilterSettings = function () {
-    filterSettings = {};
+    filterSettings = null;
   };
 
   var restoreFilterNodes = function () {

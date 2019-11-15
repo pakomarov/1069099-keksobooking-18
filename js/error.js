@@ -6,9 +6,9 @@
   var mainNode = document.querySelector('main');
 
 
-  var errorNode;
-  var errorMessageNode;
-  var closeNode;
+  var errorNode = null;
+  var errorMessageNode = null;
+  var closeNode = null;
 
 
   var renderError = function () {

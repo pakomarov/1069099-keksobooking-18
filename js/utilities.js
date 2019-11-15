@@ -8,6 +8,14 @@
   var KEYCODE_ENTER = 13;
 
 
+  var hasStringContent = function (string) {
+    return !!string.trim();
+  };
+
+  var isEmptyObject = function (object) {
+    return Object.keys(object).length === 0;
+  };
+
   var hideNodeWithClass = function (node) {
     node.classList.add(HIDING_CLASS);
   };
@@ -32,16 +40,6 @@
     nodes.forEach(enableNode);
   };
 
-  var renderNodes = function (targetNode, nodes) {
-    var fragment = document.createDocumentFragment();
-
-    nodes.forEach(function (node) {
-      fragment.appendChild(node);
-    });
-
-    targetNode.appendChild(fragment);
-  };
-
   var getNodePosition = function (node) {
     return {
       top: node.offsetTop,
@@ -58,11 +56,12 @@
     HIDING_CLASS: HIDING_CLASS,
     KEYCODE_ENTER: KEYCODE_ENTER,
     KEYCODE_ESC: KEYCODE_ESC,
+    hasStringContent: hasStringContent,
+    isEmptyObject: isEmptyObject,
     hideNodeWithClass: hideNodeWithClass,
     showNodeWithClass: showNodeWithClass,
     disableNodes: disableNodes,
     enableNodes: enableNodes,
-    renderNodes: renderNodes,
     getNodePosition: getNodePosition,
     createShallowCopy: createShallowCopy
   };

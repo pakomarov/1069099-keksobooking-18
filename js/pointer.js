@@ -43,7 +43,7 @@
     customMouseDownHandler();
   };
 
-  var pointerKeydownEnterHandler = function (evt) {
+  var pointerKeyDownEnterHandler = function (evt) {
     if (evt.keyCode === window.utilities.KEYCODE_ENTER) {
       customMouseDownHandler();
     }
@@ -69,7 +69,7 @@
 
   var setup = function () {
     pointerNode.addEventListener('mousedown', pointerMousedownHandler);
-    pointerNode.addEventListener('keydown', pointerKeydownEnterHandler);
+    pointerNode.addEventListener('keydown', pointerKeyDownEnterHandler);
   };
 
 
