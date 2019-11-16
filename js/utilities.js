@@ -3,6 +3,8 @@
 
 (function () {
   var HIDING_CLASS = 'hidden';
+  var HIDING_DISPLAY_PROPERTY = 'none';
+  var SHOWING_DISPLAY_PROPERTY = '';
   var DISABLE_ATTRIBUTE = 'disabled';
   var KEYCODE_ESC = 27;
   var KEYCODE_ENTER = 13;
@@ -16,12 +18,20 @@
     return Object.keys(object).length === 0;
   };
 
-  var hideNodeWithClass = function (node) {
+  var hideNodeThroughClass = function (node) {
     node.classList.add(HIDING_CLASS);
   };
 
-  var showNode = function (node) {
+  var showNodeThroughClass = function (node) {
     node.classList.remove(HIDING_CLASS);
+  };
+
+  var hideNodeThroughProperty = function (node) {
+    node.style.display = HIDING_DISPLAY_PROPERTY;
+  };
+
+  var showNodeThroughProperty = function (node) {
+    node.style.display = SHOWING_DISPLAY_PROPERTY;
   };
 
   var disableNode = function (node) {
@@ -58,8 +68,10 @@
     KEYCODE_ESC: KEYCODE_ESC,
     hasStringContent: hasStringContent,
     isEmptyObject: isEmptyObject,
-    hideNodeWithClass: hideNodeWithClass,
-    showNode: showNode,
+    hideNodeThroughClass: hideNodeThroughClass,
+    showNodeThroughClass: showNodeThroughClass,
+    hideNodeThroughProperty: hideNodeThroughProperty,
+    showNodeThroughProperty: showNodeThroughProperty,
     disableNodes: disableNodes,
     enableNodes: enableNodes,
     getNodePosition: getNodePosition,

@@ -13,7 +13,7 @@
 
   var renderError = function () {
     errorNode = errorTemplateNode.cloneNode('true');
-    window.utilities.hideNodeWithClass(errorNode);
+    window.utilities.hideNodeThroughClass(errorNode);
     errorMessageNode = errorNode.querySelector('.error__message');
     closeNode = errorNode.querySelector('.error__button');
     closeNode.addEventListener('click', closeClickHandler);
@@ -22,13 +22,13 @@
 
   var showWarning = function (error) {
     errorMessageNode.textContent = error;
-    window.utilities.showNode(errorNode);
+    window.utilities.showNodethroughClass(errorNode);
     document.addEventListener('keydown', documentKeydownEscHandler);
     document.addEventListener('mousedown', documentClickHandler);
   };
 
   var hideWarning = function () {
-    window.utilities.hideNodeWithClass(errorNode);
+    window.utilities.hideNodeThroughClass(errorNode);
     errorMessageNode.textContent = '';
     document.removeEventListener('keydown', documentKeydownEscHandler);
     document.removeEventListener('mousedown', documentClickHandler);

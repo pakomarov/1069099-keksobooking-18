@@ -22,6 +22,22 @@
     return ad.offer.type;
   };
 
+  var getAdPrice = function (ad) {
+    return ad.offer.price;
+  };
+
+  var getAdRoomCount = function (ad) {
+    return ad.offer.rooms;
+  };
+
+  var getAdGuestCount = function (ad) {
+    return ad.offer.guests;
+  };
+
+  var getAdFeatures = function (ad) {
+    return ad.offer.features;
+  };
+
 
   var showPins = function () {
     var filteredAds = window.filter.filterAds(storedAds);
@@ -106,6 +122,10 @@
     deactivate: deactivate,
     activate: activate,
     getAdHousingType: getAdHousingType,
+    getAdPrice: getAdPrice,
+    getAdRoomCount: getAdRoomCount,
+    getAdGuestCount: getAdGuestCount,
+    getAdFeatures: getAdFeatures,
     setCustomLoadHandler: setCustomLoadHandler,
     setCustomLoadErrorHandler: setCustomLoadErrorHandler,
     refreshPins: refreshPins

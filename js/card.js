@@ -21,7 +21,7 @@
 
 
     var hideNode = function (selector) {
-      window.utilities.hideNodeWithClass(cardNode.querySelector(selector));
+      window.utilities.hideNodeThroughProperty(cardNode.querySelector(selector));
     };
 
 
@@ -73,10 +73,10 @@
 
     if (ad.offer.features && ad.offer.features.length) {
       cardNode.querySelectorAll('.popup__feature').forEach(function (featureNode) {
-        window.utilities.hideNodeWithClass(featureNode);
+        window.utilities.hideNodeThroughProperty(featureNode);
       });
       ad.offer.features.forEach(function (feature) {
-        window.utilities.showNode(cardNode.querySelector('.popup__feature--' + feature));
+        window.utilities.showNodeThroughProperty(cardNode.querySelector('.popup__feature--' + feature));
       });
     } else {
       hideNode('.popup__features');
@@ -88,10 +88,10 @@
       hideNode('.popup__description');
     }
 
+    var photoTemplateNode = cardNode.querySelector('.popup__photo');
+    photoTemplateNode.parentNode.removeChild(photoTemplateNode);
     if (ad.offer.photos && ad.offer.photos.length) {
-      var photoTemplateNode = cardNode.querySelector('.popup__photo');
       var photoContainerNode = cardNode.querySelector('.popup__photos');
-      photoTemplateNode.parentNode.removeChild(photoTemplateNode);
       ad.offer.photos.forEach(function (source) {
         if (window.utilities.hasStringContent(source)) {
           var newPhotoNode = photoTemplateNode.cloneNode('true');
