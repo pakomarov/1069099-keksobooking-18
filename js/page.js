@@ -22,12 +22,17 @@
     deactivate();
   };
 
+  var onFormResetButtonClick = function () {
+    deactivate();
+  };
+
 
   var setup = function () {
     window.error.setup();
     window.map.setup();
     window.ads.setCustomLoadErrorHandler(onAdsLoadError);
     window.form.setup();
+    window.form.setCustomResetButtonClickHandler(onFormResetButtonClick);
     deactivate();
   };
 

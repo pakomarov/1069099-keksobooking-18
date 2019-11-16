@@ -17,18 +17,7 @@
 
   var appearance = APPEARANCE_BIG;
   var customMouseDownHandler = function () {};
-  var customAppearanceChangeHandler = function () {};
 
-
-  var makeBig = function () {
-    appearance = APPEARANCE_BIG;
-    customAppearanceChangeHandler();
-  };
-
-  var makeSmall = function () {
-    appearance = APPEARANCE_SMALL;
-    customAppearanceChangeHandler();
-  };
 
   var getLocation = function () {
     var pointerPositioning = window.utilities.getNodePosition(pointerNode);
@@ -36,6 +25,16 @@
       x: Math.floor(pointerPositioning.left + appearance.addressOffsetX),
       y: Math.floor(pointerPositioning.top + appearance.addressOffsetY)
     };
+  };
+
+  var makeBig = function () {
+    appearance = APPEARANCE_BIG;
+    window.form.refreshAddress(getLocation());
+  };
+
+  var makeSmall = function () {
+    appearance = APPEARANCE_SMALL;
+    window.form.refreshAddress(getLocation());
   };
 
 
@@ -62,10 +61,6 @@
     customMouseDownHandler = callback;
   };
 
-  var setCustomAppearanceChangeHandler = function (callback) {
-    customAppearanceChangeHandler = callback;
-  };
-
 
   var setup = function () {
     pointerNode.addEventListener('mousedown', pointerMousedownHandler);
@@ -78,7 +73,6 @@
     deactivate: deactivate,
     activate: activate,
     setCustomMouseDownHandler: setCustomMouseDownHandler,
-    setCustomAppearanceChangeHandler: setCustomAppearanceChangeHandler,
     getLocation: getLocation
   };
 })();

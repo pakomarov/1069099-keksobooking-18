@@ -3,6 +3,12 @@
 
 (function () {
   var DEACTIVATION_CLASS = 'ad-form--disabled';
+  var housingTypeToMinPrice = {
+    'bungalo': 0,
+    'flat': 1000,
+    'house': 5000,
+    'palace': 10000
+  };
   var roomCountToValidationRules = {
     '1': {
       validCapacityValues: ['1'],
@@ -24,13 +30,55 @@
 
 
   var adFormNode = document.querySelector('.ad-form');
-  var roomNumberSelectNode = adFormNode.querySelector('#room_number');
-  var capacitySelectNode = adFormNode.querySelector('#capacity');
   var adFormInputNodes = adFormNode.querySelectorAll('input');
   var adFormSelectNodes = adFormNode.querySelectorAll('select');
   var adFormTextareaNodes = adFormNode.querySelectorAll('textarea');
   var adFormButtonNodes = adFormNode.querySelectorAll('button');
-  var addressInputNode = adFormNode.querySelector('#address');
+  var titleNode = adFormNode.querySelector('#title');
+  var addressNode = adFormNode.querySelector('#address');
+  var housingTypeNode = adFormNode.querySelector('#type');
+  var priceNode = adFormNode.querySelector('#price');
+  var timeInNode = adFormNode.querySelector('#timein');
+  var timeOutNode = adFormNode.querySelector('#timeout');
+  var roomCountNode = adFormNode.querySelector('#room_number');
+  var capacityNode = adFormNode.querySelector('#capacity');
+  var featureNodes = adFormNode.querySelectorAll('.features input');
+  var descriptionNode = adFormNode.querySelector('#description');
+  var resetButtonNode = adFormNode.querySelector('.ad-form__reset');
+
+
+  var initialFormSettings = null;
+
+
+  var customResetButtonClickHandler = function () {};
+
+
+  var storeInitialFormSettings = function () {
+    initialFormSettings = {
+      type: housingTypeNode.value,
+      timeIn: timeInNode.value,
+      roomCount: roomCountNode.value,
+      capacity: capacityNode.value
+    };
+  };
+
+  var restoreFormSettings = function () {
+    // restore avatar input field
+    titleNode.value = '';
+    housingTypeNode.value = initialFormSettings.type;
+    setMinPrice();
+    priceNode.value = '';
+    timeInNode.value = initialFormSettings.timeIn;
+    timeOutNode.value = timeInNode.value;
+    roomCountNode.value = initialFormSettings.roomCount;
+    setCapacityValidity();
+    capacityNode.value = initialFormSettings.capacity;
+    featureNodes.forEach(function (featureNode) {
+      featureNode.checked = false;
+    });
+    descriptionNode.value = '';
+    // restore pictures input field
+  };
 
 
   var disableAllFields = function () {
@@ -43,6 +91,7 @@
   var deactivate = function () {
     disableAllFields();
     adFormNode.classList.add(DEACTIVATION_CLASS);
+    restoreFormSettings();
   };
 
 
@@ -59,28 +108,46 @@
   };
 
 
+  var setMinPrice = function () {
+    var newMinPrice = housingTypeToMinPrice[housingTypeNode.value];
+    priceNode.min = newMinPrice;
+    priceNode.placeholder = newMinPrice;
+  };
+
+  var housingTypeChangeHandler = function () {
+    setMinPrice();
+  };
+
+  var timeInChangeHandler = function () {
+    timeOutNode.value = timeInNode.value;
+  };
+
+  var timeOutChangeHandler = function () {
+    timeInNode.value = timeOutNode.value;
+  };
+
   var setCapacityValidity = function () {
-    var selectedRoomCount = roomNumberSelectNode.value;
-    var selectedCapacity = capacitySelectNode.value;
+    var selectedRoomCount = roomCountNode.value;
+    var selectedCapacity = capacityNode.value;
     var validationRules = roomCountToValidationRules[selectedRoomCount];
     var validCapacityValues = validationRules.validCapacityValues;
     var errorMessage = validationRules.errorMessage;
 
     if (validCapacityValues.includes(selectedCapacity)) {
-      capacitySelectNode.setCustomValidity('');
+      capacityNode.setCustomValidity('');
     } else {
-      capacitySelectNode.setCustomValidity(errorMessage);
+      capacityNode.setCustomValidity(errorMessage);
     }
   };
 
-  var roomNumberSelectChangeHandler = function () {
+  var roomNumberChangeHandler = function () {
     setCapacityValidity();
-    capacitySelectNode.reportValidity();
+    capacityNode.reportValidity();
   };
 
-  var capacitySelectChangeHandler = function () {
+  var capacityChangeHandler = function () {
     setCapacityValidity();
-    capacitySelectNode.reportValidity();
+    capacityNode.reportValidity();
   };
 
 
@@ -88,26 +155,37 @@
     return location.x + ' ' + location.y;
   };
 
-  var refreshAddress = function () {
-    var currentLocation = window.pointer.getLocation();
-    addressInputNode.value = getAddressFromLocation(currentLocation);
+  var refreshAddress = function (location) {
+    addressNode.value = getAddressFromLocation(location);
   };
 
-  var onPointerAppearanceChange = function () {
-    refreshAddress();
+
+  var resetButtonClickHandler = function () {
+    customResetButtonClickHandler();
+  };
+
+
+  var setCustomResetButtonClickHandler = function (callback) {
+    customResetButtonClickHandler = callback;
   };
 
 
   var setup = function () {
-    roomNumberSelectNode.addEventListener('change', roomNumberSelectChangeHandler);
-    capacitySelectNode.addEventListener('change', capacitySelectChangeHandler);
-    window.pointer.setCustomAppearanceChangeHandler(onPointerAppearanceChange);
+    storeInitialFormSettings();
+    housingTypeNode.addEventListener('change', housingTypeChangeHandler);
+    timeInNode.addEventListener('change', timeInChangeHandler);
+    timeOutNode.addEventListener('change', timeOutChangeHandler);
+    roomCountNode.addEventListener('change', roomNumberChangeHandler);
+    capacityNode.addEventListener('change', capacityChangeHandler);
+    resetButtonNode.addEventListener('click', resetButtonClickHandler);
   };
 
 
   window.form = {
     setup: setup,
     deactivate: deactivate,
-    activate: activate
+    activate: activate,
+    refreshAddress: refreshAddress,
+    setCustomResetButtonClickHandler: setCustomResetButtonClickHandler
   };
 })();
