@@ -73,10 +73,10 @@
     removePins();
   };
 
-  var refreshPins = function () {
+  var refreshPins = window.utilities.debounce(function () {
     removeAllWidgets();
     showPins();
-  };
+  });
 
   var deactivate = function () {
     removeAllWidgets();

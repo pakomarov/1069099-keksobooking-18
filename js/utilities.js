@@ -8,6 +8,7 @@
   var DISABLE_ATTRIBUTE = 'disabled';
   var KEYCODE_ESC = 27;
   var KEYCODE_ENTER = 13;
+  var DEFAULT_DEBOUNCE_INTERVAL = 300;
 
 
   var hasStringContent = function (string) {
@@ -61,6 +62,22 @@
     return Object.assign({}, object);
   };
 
+  var debounce = function (cb, interval) {
+    interval = interval || DEFAULT_DEBOUNCE_INTERVAL;
+
+    var lastTimeout = null;
+
+    return function () {
+      var parameters = arguments;
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(function () {
+        cb.apply(null, parameters);
+      }, interval);
+    };
+  };
+
 
   window.utilities = {
     HIDING_CLASS: HIDING_CLASS,
@@ -75,6 +92,7 @@
     disableNodes: disableNodes,
     enableNodes: enableNodes,
     getNodePosition: getNodePosition,
-    createShallowCopy: createShallowCopy
+    createShallowCopy: createShallowCopy,
+    debounce: debounce
   };
 })();
