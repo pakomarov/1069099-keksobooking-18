@@ -4,6 +4,7 @@
 (function () {
   var ERROR_MESSAGE = 'К сожалению, у нас возникли неполадки. Попробуйте повторить запрос позднее.';
   var SHOWN_ADS_MAX = 5;
+  var DEBOUNCE_INTERVAL = 500;
 
 
   var mapNode = document.querySelector('.map');
@@ -76,7 +77,7 @@
   var refreshPins = window.utilities.debounce(function () {
     removeAllWidgets();
     showPins();
-  });
+  }, DEBOUNCE_INTERVAL);
 
   var deactivate = function () {
     removeAllWidgets();
@@ -87,14 +88,14 @@
     return ad.offer && !window.utilities.isEmptyObject(ad.offer);
   };
 
-  var onSuccess = function (ads) {
-    if (ads === null || !Array.isArray(ads)) {
+  var onSuccess = function (data) {
+    if (data === null || !Array.isArray(data)) {
       customLoadErrorHandler();
       window.notification.showError(ERROR_MESSAGE);
       return;
     }
 
-    storedAds = ads.filter(hasOffer);
+    storedAds = data.filter(hasOffer);
     customLoadHandler();
     showPins();
   };
