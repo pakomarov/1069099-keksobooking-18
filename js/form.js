@@ -132,11 +132,8 @@
     var validCapacityValues = validationRules.validCapacityValues;
     var errorMessage = validationRules.errorMessage;
 
-    if (validCapacityValues.includes(selectedCapacity)) {
-      capacityNode.setCustomValidity('');
-    } else {
-      capacityNode.setCustomValidity(errorMessage);
-    }
+    var validityMessage = validCapacityValues.includes(selectedCapacity) ? '' : errorMessage;
+    capacityNode.setCustomValidity(validityMessage);
   };
 
   var roomNumberChangeHandler = function () {

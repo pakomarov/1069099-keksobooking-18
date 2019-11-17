@@ -34,12 +34,12 @@
   var filterSettings = null;
 
 
-  var getCurrentFeatureList = function () {
+  var getCurrentFeatures = function () {
     var checkedFeatureNodes = featuresNode.querySelectorAll('input:checked');
-    var featureList = Array.from(checkedFeatureNodes).map(function (featureNode) {
+    var features = Array.from(checkedFeatureNodes).map(function (featureNode) {
       return featureNode.value;
     });
-    return featureList;
+    return features;
   };
 
   var storeInitialFilterSettings = function () {
@@ -48,7 +48,7 @@
       priceOption: priceNode.value,
       roomCount: roomCountNode.value,
       guestCount: guestCountNode.value,
-      features: getCurrentFeatureList()
+      features: getCurrentFeatures()
     };
   };
 
@@ -67,12 +67,7 @@
     roomCountNode.value = initialFilterSettings.roomCount;
     guestCountNode.value = initialFilterSettings.guestCount;
     featureNodes.forEach(function (featureNode) {
-      var feature = featureNode.value;
-      if (initialFilterSettings.features.indexOf(feature) === -1) {
-        featureNode.checked = false;
-      } else {
-        featureNode.checked = true;
-      }
+      featureNode.checked = initialFilterSettings.features.indexOf(featureNode.value) === -1 ? false : true;
     });
   };
 

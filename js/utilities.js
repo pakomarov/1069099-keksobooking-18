@@ -80,7 +80,6 @@
 
 
   window.utilities = {
-    HIDING_CLASS: HIDING_CLASS,
     KEYCODE_ENTER: KEYCODE_ENTER,
     KEYCODE_ESC: KEYCODE_ESC,
     hasStringContent: hasStringContent,
