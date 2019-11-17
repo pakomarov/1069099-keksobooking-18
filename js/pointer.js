@@ -21,7 +21,6 @@
 
   var appearance = APPEARANCE_BIG;
   var initialPointerPositioning = null;
-  var locationMaxX = mapPinsNode.offsetWidth - APPEARANCE_SMALL.addressOffsetX;
   var customMouseDownHandler = function () {};
 
 
@@ -70,19 +69,22 @@
   };
 
 
-  var isCoordinateXInRange = function (x) {
-    return x >= (LOCATION_MIN_X - appearance.addressOffsetX) && x <= locationMaxX;
-  };
-
-  var isCoordinateYInRange = function (y) {
-    return y >= (LOCATION_MIN_Y - appearance.addressOffsetY) && y <= (LOCATION_MAX_Y - appearance.addressOffsetY);
-  };
-
   var pointerMousedownHandler = function (mouseDownEvent) {
     var startCoords = {
       x: mouseDownEvent.clientX,
       y: mouseDownEvent.clientY
     };
+    var locationMaxX = mapPinsNode.offsetWidth - APPEARANCE_SMALL.addressOffsetX;
+
+
+    var isCoordinateXInRange = function (x) {
+      return x >= (LOCATION_MIN_X - appearance.addressOffsetX) && x <= locationMaxX;
+    };
+
+    var isCoordinateYInRange = function (y) {
+      return y >= (LOCATION_MIN_Y - appearance.addressOffsetY) && y <= (LOCATION_MAX_Y - appearance.addressOffsetY);
+    };
+
 
     var mouseMoveHandler = function (mouseMoveEvent) {
 
@@ -142,7 +144,6 @@
     setup: setup,
     deactivate: deactivate,
     activate: activate,
-    setCustomMouseDownHandler: setCustomMouseDownHandler,
-    getLocation: getLocation
+    setCustomMouseDownHandler: setCustomMouseDownHandler
   };
 })();

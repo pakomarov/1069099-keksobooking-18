@@ -90,7 +90,7 @@
   var onSuccess = function (ads) {
     if (ads === null || !Array.isArray(ads)) {
       customLoadErrorHandler();
-      window.error.showWarning(ERROR_MESSAGE);
+      window.notification.showError(ERROR_MESSAGE);
       return;
     }
 
@@ -101,7 +101,7 @@
 
   var onError = function (error) {
     customLoadErrorHandler();
-    window.error.showWarning(error);
+    window.notification.showError(error);
   };
 
   var activate = function () {

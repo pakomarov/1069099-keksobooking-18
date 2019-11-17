@@ -26,13 +26,18 @@
     deactivate();
   };
 
+  var onFormSendSuccess = function () {
+    deactivate();
+  };
+
 
   var setup = function () {
-    window.error.setup();
+    window.notification.setup();
     window.map.setup();
     window.ads.setCustomLoadErrorHandler(onAdsLoadError);
     window.form.setup();
     window.form.setCustomResetButtonClickHandler(onFormResetButtonClick);
+    window.form.setCustomSendSuccessHandler(onFormSendSuccess);
     deactivate();
   };
 

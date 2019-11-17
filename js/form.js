@@ -51,6 +51,7 @@
 
 
   var customResetButtonClickHandler = function () {};
+  var customSendSuccessHandler = function () {};
 
 
   var storeInitialFormSettings = function () {
@@ -63,7 +64,6 @@
   };
 
   var restoreFormSettings = function () {
-    // restore avatar input field
     titleNode.value = '';
     housingTypeNode.value = initialFormSettings.type;
     setMinPrice();
@@ -77,7 +77,6 @@
       featureNode.checked = false;
     });
     descriptionNode.value = '';
-    // restore pictures input field
   };
 
 
@@ -164,9 +163,28 @@
     customResetButtonClickHandler();
   };
 
+  var onSuccess = function () {
+    customSendSuccessHandler();
+    window.notification.showSuccess();
+  };
+
+  var onError = function (error) {
+    window.notification.showError(error);
+  };
+
+  var adFormSubmitHandler = function (evt) {
+    var formData = new FormData(adFormNode);
+    window.backend.sendForm(onSuccess, onError, formData);
+    evt.preventDefault();
+  };
+
 
   var setCustomResetButtonClickHandler = function (callback) {
     customResetButtonClickHandler = callback;
+  };
+
+  var setCustomSendSuccessHandler = function (callback) {
+    customSendSuccessHandler = callback;
   };
 
 
@@ -178,6 +196,7 @@
     roomCountNode.addEventListener('change', roomNumberChangeHandler);
     capacityNode.addEventListener('change', capacityChangeHandler);
     resetButtonNode.addEventListener('click', resetButtonClickHandler);
+    adFormNode.addEventListener('submit', adFormSubmitHandler);
   };
 
 
@@ -186,6 +205,7 @@
     deactivate: deactivate,
     activate: activate,
     refreshAddress: refreshAddress,
-    setCustomResetButtonClickHandler: setCustomResetButtonClickHandler
+    setCustomResetButtonClickHandler: setCustomResetButtonClickHandler,
+    setCustomSendSuccessHandler: setCustomSendSuccessHandler
   };
 })();
