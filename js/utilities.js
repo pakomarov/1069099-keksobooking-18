@@ -2,40 +2,53 @@
 
 
 (function () {
+  var HIDING_CLASS = 'hidden';
+  var HIDING_DISPLAY_PROPERTY = 'none';
+  var SHOWING_DISPLAY_PROPERTY = '';
+  var DISABLE_ATTRIBUTE = 'disabled';
   var KEYCODE_ESC = 27;
   var KEYCODE_ENTER = 13;
+  var DEFAULT_DEBOUNCE_INTERVAL = 300;
 
 
-  var mapIterable = function (iterable, cb) {
-    for (var i = 0; i < iterable.length; i++) {
-      cb(iterable[i]);
-    }
+  var hasStringContent = function (string) {
+    return !!string.trim();
+  };
+
+  var isEmptyObject = function (object) {
+    return Object.keys(object).length === 0;
+  };
+
+  var hideNodeThroughClass = function (node) {
+    node.classList.add(HIDING_CLASS);
+  };
+
+  var showNodeThroughClass = function (node) {
+    node.classList.remove(HIDING_CLASS);
+  };
+
+  var hideNodeThroughProperty = function (node) {
+    node.style.display = HIDING_DISPLAY_PROPERTY;
+  };
+
+  var showNodeThroughProperty = function (node) {
+    node.style.display = SHOWING_DISPLAY_PROPERTY;
   };
 
   var disableNode = function (node) {
-    node.setAttribute('disabled', '');
+    node.setAttribute(DISABLE_ATTRIBUTE, '');
   };
 
   var enableNode = function (node) {
-    node.removeAttribute('disabled');
+    node.removeAttribute(DISABLE_ATTRIBUTE);
   };
 
   var disableNodes = function (nodes) {
-    mapIterable(nodes, disableNode);
+    nodes.forEach(disableNode);
   };
 
   var enableNodes = function (nodes) {
-    mapIterable(nodes, enableNode);
-  };
-
-  var renderNodes = function (targetNode, nodes) {
-    var fragment = document.createDocumentFragment();
-
-    mapIterable(nodes, function (node) {
-      fragment.appendChild(node);
-    });
-
-    targetNode.appendChild(fragment);
+    nodes.forEach(enableNode);
   };
 
   var getNodePosition = function (node) {
@@ -49,14 +62,36 @@
     return Object.assign({}, object);
   };
 
+  var debounce = function (cb, interval) {
+    interval = interval || DEFAULT_DEBOUNCE_INTERVAL;
+
+    var lastTimeout = null;
+
+    return function () {
+      var parameters = arguments;
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(function () {
+        cb.apply(null, parameters);
+      }, interval);
+    };
+  };
+
 
   window.utilities = {
     KEYCODE_ENTER: KEYCODE_ENTER,
     KEYCODE_ESC: KEYCODE_ESC,
+    hasStringContent: hasStringContent,
+    isEmptyObject: isEmptyObject,
+    hideNodeThroughClass: hideNodeThroughClass,
+    showNodeThroughClass: showNodeThroughClass,
+    hideNodeThroughProperty: hideNodeThroughProperty,
+    showNodeThroughProperty: showNodeThroughProperty,
     disableNodes: disableNodes,
     enableNodes: enableNodes,
-    renderNodes: renderNodes,
     getNodePosition: getNodePosition,
-    createShallowCopy: createShallowCopy
+    createShallowCopy: createShallowCopy,
+    debounce: debounce
   };
 })();

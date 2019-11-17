@@ -2,28 +2,48 @@
 
 
 (function () {
-  var PIN_OFFSET_X = 25;
-  var PIN_OFFSET_Y = 70;
+  var Pin = function (ad) {
+    this.createNode(ad);
 
+    var node = this.node;
+    var activeClass = this.ACTIVE_CLASS;
 
-  var pinTemplateNode = document.querySelector('#pin').content.querySelector('.map__pin');
+    this.clickHandler = function () {
+      var popup = document.querySelector('.map__card');
+      if (popup) {
+        window.card.closePopup();
+      }
+      window.card.showPopup(ad);
+      node.classList.add(activeClass);
+    };
+    this.node.addEventListener('click', this.clickHandler);
+  };
 
+  Pin.prototype.OFFSET_X = 25;
 
-  var createNode = function (ad) {
-    var pinNode = pinTemplateNode.cloneNode('true');
-    var imageNode = pinNode.children[0];
+  Pin.prototype.OFFSET_Y = 70;
 
-    pinNode.style.left = (ad.location.x - PIN_OFFSET_X) + 'px';
-    pinNode.style.top = (ad.location.y - PIN_OFFSET_Y) + 'px';
+  Pin.prototype.ACTIVE_CLASS = 'map__pin--active';
 
-    imageNode.src = ad.author.avatar;
-    imageNode.alt = ad.offer.title;
+  Pin.prototype.pinTemplateNode = document.querySelector('#pin').content.querySelector('.map__pin');
 
-    return pinNode;
+  Pin.prototype.createNode = function (ad) {
+    this.node = this.pinTemplateNode.cloneNode('true');
+
+    this.node.style.left = (ad.location.x - this.OFFSET_X) + 'px';
+    this.node.style.top = (ad.location.y - this.OFFSET_Y) + 'px';
+
+    this.node.children[0].src = ad.author.avatar;
+    this.node.children[0].alt = ad.offer.title;
+  };
+
+  Pin.prototype.remove = function () {
+    this.node.remove();
+    this.node.removeEventListener('click', this.clickHandler);
   };
 
 
   window.pin = {
-    createNode: createNode
+    Pin: Pin
   };
 })();
