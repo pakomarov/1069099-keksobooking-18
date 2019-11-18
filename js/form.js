@@ -46,6 +46,11 @@
   var descriptionNode = adFormNode.querySelector('#description');
   var resetButtonNode = adFormNode.querySelector('.ad-form__reset');
 
+  var avatarFileChooserNode = adFormNode.querySelector('#avatar');
+  var avatarPreviewNode = adFormNode.querySelector('.ad-form-header__preview img');
+  var photoFileChooserNode = adFormNode.querySelector('#images');
+  var photoPreviewNode = adFormNode.querySelector('.ad-form__photo');
+
 
   var initialFormSettings = null;
 
@@ -56,6 +61,7 @@
 
   var storeInitialFormSettings = function () {
     initialFormSettings = {
+      avatarSource: avatarPreviewNode.src,
       type: housingTypeNode.value,
       timeIn: timeInNode.value,
       roomCount: roomCountNode.value,
@@ -64,6 +70,8 @@
   };
 
   var restoreFormSettings = function () {
+    avatarFileChooserNode.value = '';
+    avatarPreviewNode.src = initialFormSettings.avatarSource;
     titleNode.value = '';
     housingTypeNode.value = initialFormSettings.type;
     setMinPrice();
@@ -77,6 +85,8 @@
       featureNode.checked = false;
     });
     descriptionNode.value = '';
+    photoFileChooserNode.value = '';
+    photoPreviewNode.innerHTML = '';
   };
 
 
@@ -176,6 +186,20 @@
   };
 
 
+  var onAvatarUpload = function (result) {
+    avatarPreviewNode.src = result;
+  };
+
+  var onPhotoUpload = function (result) {
+    photoPreviewNode.innerHTML = '';
+    var imageNode = document.createElement('img');
+    imageNode.width = photoPreviewNode.offsetWidth;
+    imageNode.height = photoPreviewNode.offsetHeight;
+    imageNode.src = result;
+    photoPreviewNode.appendChild(imageNode);
+  };
+
+
   var setCustomResetButtonClickHandler = function (callback) {
     customResetButtonClickHandler = callback;
   };
@@ -194,6 +218,8 @@
     capacityNode.addEventListener('change', capacityChangeHandler);
     resetButtonNode.addEventListener('click', resetButtonClickHandler);
     adFormNode.addEventListener('submit', adFormSubmitHandler);
+    window.upload.addUploadListener(avatarFileChooserNode, onAvatarUpload);
+    window.upload.addUploadListener(photoFileChooserNode, onPhotoUpload);
   };
 
 
